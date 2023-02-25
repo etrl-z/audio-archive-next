@@ -8,7 +8,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 export default function Home() {
 
   const testURLS = [];
-  for (let index = 0; index < 20; index++) {
+  for (let index = 0; index < 10; index++) {
     var url = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${index}.mp3`;
     testURLS.push(url);
   }
