@@ -4,7 +4,7 @@ import { db, storage } from "../firebaseConfig"
 import { getStorage, ref, getDownloadURL, list } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
-import getAudioFromUrl from '@/Utility/getAudioFromUrl';
+import getAudioFromUrl from '@/utility/getAudioFromUrl';
 
 export default function Home(props) {
 
