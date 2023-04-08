@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^4.33.0",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.1",
     "next": "13.2.1",
