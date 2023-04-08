@@ -2,7 +2,9 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { db, storage } from "../firebaseConfig"
 import { getStorage, ref, getDownloadURL, list } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
+import getAudioFromUrl from '@/Utility/getAudioFromUrl';
 
 export default function Home(props) {
 
@@ -14,9 +16,10 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
+        <input type="range" min="0" max="100" class="slider" id="volume-slider" />
         {props.data.map((file) => {
           return (
-            <Card title={file.title} url={file.url} />
+            <Card title={file.title} audio={getAudioFromUrl(file.url)} />
           )
         })}
       </main>

@@ -1,25 +1,41 @@
 import React from 'react'
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
-function Card({ title, url }) {
+function Card({ title, audio }) {
 
-    const [audio] = useState(typeof Audio !== "undefined" && new Audio(url));
+    const [active, setClassActive] = useState(null);
+
+    const setActive = (active) => {
+        var style = active ? "card-active" : null
+        setClassActive(style);
+    };
+
     const play = function () {
         audio.play();
+        setActive(true);
     }
+
     const pause = function () {
         audio.pause();
     }
+    
     const stop = function () {
         audio.pause();
         audio.currentTime = 0;
+        setActive(false);
+    }
+
+    if (typeof window !== "undefined") {
+        let volume = document.getElementById("volume-slider");
+        volume.addEventListener("change", function (e) {
+            audio.volume = e.currentTarget.value / 100;
+        })
     }
 
     return (
-        <div class="card">
+        <div class={`card ${active}`}>
             <p>{title}</p>
             <div>
-                <input type="range" min="1" max="100" class="slider" />
                 <button onClick={play}>PLAY</button>
                 <button onClick={pause}>PAUSE</button>
                 <button onClick={stop}>STOP</button>
