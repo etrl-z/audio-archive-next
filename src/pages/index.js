@@ -4,11 +4,8 @@ import { db, storage } from "../firebaseConfig"
 import { getStorage, ref, getDownloadURL, list } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
-import getAudioFromUrl from '@/utils/getAudioFromUrl';
 
 export default function Home(props) {
-
-  //const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title: "test", url: "test"}]
 
   return (
     <>
@@ -21,12 +18,9 @@ export default function Home(props) {
         <input type="range" min="0" max="100" class="slider" id="volume-slider" />
         {props.data.map((file) => {
           return (
-            <Card title={file.title}
-              //audio={getAudioFromUrl(file.url)}
-            />
+            <Card key={uuidv4()} title={file.title} url={file.url} />
           )
-        })
-        }
+        })}
       </main>
     </>
   )
@@ -41,12 +35,14 @@ export async function getServerSideProps(context) {
 
   const data = [];
   for (let i = 0; i < result.items.length; i++) {
-    // var res = await getDownloadURL(ref(storage, `audio/${result.items[i].name}`))
-    // var _url = res
     data[i] = {
-      title: result.items[i].name.replace(".opus", ""),
-      //url: _url
+      title: result.items[i].name,
     }
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    var url = await getDownloadURL(ref(storage, `audio/${data[i].title}`))
+    data[i].url = url
   }
 
   return {

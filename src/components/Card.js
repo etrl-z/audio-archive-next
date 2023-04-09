@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
 
-function Card({ title, audio }) {
+function Card({ title, url }) {
 
+    const [audio] = useState(typeof Audio !== "undefined" && new Audio(url));
     const [active, setClassActive] = useState(null);
 
     const setActive = (active) => {
@@ -11,18 +12,14 @@ function Card({ title, audio }) {
     };
 
     const play = function () {
-        audio.play();
         setActive(true);
+        audio.play();
     }
 
-    const pause = function () {
-        audio.pause();
-    }
-    
     const stop = function () {
+        setActive(false);
         audio.pause();
         audio.currentTime = 0;
-        setActive(false);
     }
 
     if (typeof window !== "undefined") {
@@ -30,15 +27,18 @@ function Card({ title, audio }) {
         volume.addEventListener("change", function (e) {
             audio.volume = e.currentTarget.value / 100;
         })
+
+        audio.addEventListener("ended", function () {
+            setActive(false);
+        });
     }
 
     return (
-        <div class={`card ${active}`}>
-            <p>{title}</p>
-            <div>
-                <button onClick={play}>PLAY</button>
-                <button onClick={pause}>PAUSE</button>
-                <button onClick={stop}>STOP</button>
+        <div className={`card ${active}`}>
+            <p>{title.replace(".opus", "")}</p>
+            <div className='buttons'>
+                <button onClick={play}>▶</button>
+                <button onClick={stop}>◼</button>
             </div>
 
         </div>
