@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 function Card({ title }) {
@@ -9,22 +9,29 @@ function Card({ title }) {
 
     const [audioSrc, setAudioSrc] = useState();
     const [isPlaying, toggleIsPlaying] = useState(false);
-    const [active, setActive] = useState();
 
-    const setClassActive = (active) => {
-        setActive(active ? "card-active" : null);
-    };
+    useEffect(() => {
+        let volume = document.getElementById("volume-slider");
+        myRef.current.volume = volume.value / 100;
+        
+        var playPromise = myRef.current.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                toggleIsPlaying(true);
 
-    const play = async function () {
-        setAudioSrc(await getDownloadURL(ref(storage, `audio/${title}`)))
-        myRef.current.play();
-        toggleIsPlaying(true);
-        setClassActive(true);
+            }).catch(error => {
+                toggleIsPlaying(false);
+            });
+        }
 
         myRef.current.addEventListener("ended", function () {
             toggleIsPlaying(false);
-            setClassActive(false);
         });
+
+    }, [audioSrc]);
+
+    const play = async function () {
+        setAudioSrc(await getDownloadURL(ref(storage, `audio/${title}`)))
 
         if (typeof window !== "undefined") {
             let volume = document.getElementById("volume-slider");
@@ -38,7 +45,6 @@ function Card({ title }) {
         myRef.current.pause();
         myRef.current.currentTime = 0;
         toggleIsPlaying(false);
-        setClassActive(false);
     }
 
     return (
@@ -48,7 +54,7 @@ function Card({ title }) {
                 src={audioSrc}
             />
 
-            <div className={`card ${active}`}>
+            <div className={`card ${isPlaying ? "card-active" : null}`}>
                 <p>{title.replace(".opus", "")}</p>
                 <div className='buttons'>
                     {isPlaying ? (

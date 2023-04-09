@@ -1,6 +1,33 @@
 import '@/styles/globals.css'
 import '../styles/personalizedStyle.css'
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebaseConfig";
+import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
+import Login from "./login";
+import Loading from "../components/Loading";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps }) {
+  const [user, loading] = useAuthState(auth);
+
+  useEffect(() => {
+    if (user)
+      setDoc(
+        doc(collection(db, "users"), user.uid),
+        {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          lastSeen: Timestamp.fromDate(new Date()),
+        },
+        { merge: true }
+      );
+  }, [user]);
+
+  if (loading) return <Loading />;
+  if (!user) return <Login />;
+
+  return <Component {...pageProps} />;
 }
+
+export default MyApp;

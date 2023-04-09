@@ -1,11 +1,21 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { db, storage } from "../firebaseConfig"
+import { auth, db, storage } from "../firebaseConfig"
 import { getStorage, ref, list } from "firebase/storage";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
+import { useRouter } from "next/router";
 
 export default function Home(props) {
+
+  const [user] = useAuthState(auth);
+
+  const router = useRouter();
+  const signOut = () => {
+    router.push(`/`);
+    auth.signOut();
+  };
 
   return (
     <>
@@ -15,6 +25,8 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
+        <img src={user.photoURL} alt={user.displayName} className="icon"/>
+        <button className="button" onClick={signOut}>LOG OUT</button>
         <input type="range" min="0" max="100" class="slider" id="volume-slider" />
         {props.data.map((file) => {
           return (
