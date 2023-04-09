@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 function Card({ title }) {
@@ -10,10 +10,12 @@ function Card({ title }) {
     const [audioSrc, setAudioSrc] = useState();
     const [isPlaying, toggleIsPlaying] = useState(false);
 
-    useEffect(() => {
+    const play = async function () {
+        setAudioSrc(await getDownloadURL(ref(storage, `audio/${title}`)))
+
         let volume = document.getElementById("volume-slider");
         myRef.current.volume = volume.value / 100;
-        
+
         var playPromise = myRef.current.play();
         if (playPromise !== undefined) {
             playPromise.then(_ => {
@@ -28,17 +30,13 @@ function Card({ title }) {
             toggleIsPlaying(false);
         });
 
-    }, [audioSrc]);
-
-    const play = async function () {
-        setAudioSrc(await getDownloadURL(ref(storage, `audio/${title}`)))
-
         if (typeof window !== "undefined") {
             let volume = document.getElementById("volume-slider");
             volume.addEventListener("change", function (e) {
                 myRef.current.volume = e.currentTarget.value / 100;
             })
         }
+
     }
 
     const stop = function () {
