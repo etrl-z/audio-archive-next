@@ -19,7 +19,7 @@ const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title:
 
       <main className={styles.main}>
         <input type="range" min="0" max="100" class="slider" id="volume-slider" />
-        {props.data.map((file) => {
+        {props.map((file) => {
           return (
             <Card title={file.title} audio={getAudioFromUrl(file.url)} />
           )
