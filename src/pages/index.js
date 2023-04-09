@@ -6,9 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
 import getAudioFromUrl from '@/utils/getAudioFromUrl';
 
-export default function Home() {
+export default function Home(props) {
 
-const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title: "test", url: "test"},{title: "test", url: "test"},{title: "test", url: "test"}]
+  //const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title: "test", url: "test"}]
 
   return (
     <>
@@ -19,9 +19,11 @@ const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title:
 
       <main className={styles.main}>
         <input type="range" min="0" max="100" class="slider" id="volume-slider" />
-        {props.map((file) => {
+        {props.data.map((file) => {
           return (
-            <Card title={file.title} audio={getAudioFromUrl(file.url)} />
+            <Card title={file.title}
+              //audio={getAudioFromUrl(file.url)}
+            />
           )
         })
         }
@@ -30,26 +32,26 @@ const props = [{title: "test", url: "test"},{title: "test", url: "test"},{title:
   )
 }
 
-// export async function getServerSideProps(context) {
+export async function getServerSideProps(context) {
 
-//   const storage = getStorage();
-//   const listRef = ref(storage, 'audio');
+  const storage = getStorage();
+  const listRef = ref(storage, 'audio');
 
-//   const result = await list(listRef, { maxResults: 100 });
+  const result = await list(listRef, { maxResults: 100 });
 
-//   const data = [];
-//   for (let i = 0; i < result.items.length; i++) {
-//     var res = await getDownloadURL(ref(storage, `audio/${result.items[i].name}`))
-//     var _url = res
-//     data[i] = {
-//       title: result.items[i].name.replace(".opus", ""),
-//       url: _url
-//     }
-//   }
+  const data = [];
+  for (let i = 0; i < result.items.length; i++) {
+    // var res = await getDownloadURL(ref(storage, `audio/${result.items[i].name}`))
+    // var _url = res
+    data[i] = {
+      title: result.items[i].name.replace(".opus", ""),
+      //url: _url
+    }
+  }
 
-//   return {
-//     props: {
-//       data
-//     }
-//   };
-// }
+  return {
+    props: {
+      data
+    }
+  };
+}
