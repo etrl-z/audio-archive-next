@@ -37,3 +37,14 @@
     width: 80%;
     margin: 2rem 10%
 }
+
+@media screen and (max-width: 600px) {
+    .Home_main__EtNt2 {
+        padding: 10% !important
+    }
+
+    .card,
+    .slider {
+        width: 100%;
+    }
+}
