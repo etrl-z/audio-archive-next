@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { auth, db, storage } from "../firebaseConfig"
-import { getStorage, ref, list } from "firebase/storage";
+import { getStorage, ref, listAll } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
 import Card from '@/components/Card';
@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
   const storage = getStorage();
   const listRef = ref(storage, 'audio');
 
-  const result = await list(listRef, { maxResults: 100 });
+  const result = await listAll(listRef);
 
   const data = [];
   for (let i = 0; i < result.items.length; i++) {
