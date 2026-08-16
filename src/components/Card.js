@@ -64,7 +64,7 @@ function Card({ title }) {
             <audio ref={myRef} src={audioSrc} onEnded={handleEnded} />
 
             <div className={`card ${isPlaying ? "card-active" : null}`}>
-                <p>{title}</p>
+                <p>{title.replace(".opus", "")}</p>
                 <div className='buttons'>
                     {isPlaying ? (
                         <button onClick={stop}>◼</button>) : (
