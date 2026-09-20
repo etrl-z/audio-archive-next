@@ -64,7 +64,7 @@ function Card({ title }) {
         <>
             <audio ref={myRef} src={audioSrc} onEnded={handleEnded} />
 
-            <div className={`${styles.card} ${isPlaying ? styles.card-active : null}`}>
+            <div className={`${styles.card} ${isPlaying ? styles.cardActive : null}`}>
                 <p>{title}</p>
                 <div className={styles.buttons}>
                     {isPlaying ? (
