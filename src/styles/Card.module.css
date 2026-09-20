@@ -1,0 +1,38 @@
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0.5rem 10%;
+  padding: 0.5rem;
+  background-color: rgba(var(--callout-rgb), 0.5);
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  border-radius: var(--border-radius);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cardActive {
+  border: 2px solid black;
+}
+
+.card p {
+  margin: 0 1rem;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 1rem;
+}
+
+.card button {
+  width: 2rem;
+  padding: 0.2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+}

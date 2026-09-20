@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import styles from '@/styles/Card.module.css';
 
 function Card({ title }) {
 
@@ -63,9 +64,9 @@ function Card({ title }) {
         <>
             <audio ref={myRef} src={audioSrc} onEnded={handleEnded} />
 
-            <div className={`card ${isPlaying ? "card-active" : null}`}>
+            <div className={`${styles.card} ${isPlaying ? styles.card-active : null}`}>
                 <p>{title}</p>
-                <div className='buttons'>
+                <div className={styles.buttons}>
                     {isPlaying ? (
                         <button onClick={stop}>◼</button>) : (
                         <button onClick={play}>▶</button>

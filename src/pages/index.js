@@ -25,9 +25,9 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
-        <img src={user.photoURL} alt={user.displayName} className="icon"/>
-        <button className="button" onClick={signOut}>LOG OUT</button>
-        <input type="range" min="0" max="100" class="slider" id="volume-slider" />
+        <img src={user.photoURL} alt={user.displayName} className={styles.icon}/>
+        <button className={styles.button} onClick={signOut}>LOG OUT</button>
+        <input type="range" min="0" max="100" className={styles.slider} id="volume-slider" />
         {props.data.map((file) => {
           return (
             <Card key={uuidv4()} title={file.title} />

@@ -1,5 +1,4 @@
 import '@/styles/globals.css'
-import '../styles/personalizedStyle.css'
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebaseConfig";
